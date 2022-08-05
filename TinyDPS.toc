@@ -20,15 +20,9 @@
 
 ## SavedVariables: tdps, tdpsPosition, tdpsFont, tdpsNumberOfFights, tdpsF, tdpsV, tdpsTextOffset, tdpsColorAlpha, tdpsVisibleBars, tdpsReportLength
 ## SavedVariablesPerCharacter: tdpsVersion, tdpsPlayer, tdpsLink, tdpsPet, tdpsFight, tdpsInCombat, tdpsStartNewFight
-## OptionalDependencies: LibStub, LibBossIDs-1.0
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Combat: true
-
-#@no-lib-strip@
-Libs\LibStub\LibStub.lua
-Libs\LibBossIDs-1.0\lib.xml
-#@end-no-lib-strip@
 
 TinyDPS.lua
 

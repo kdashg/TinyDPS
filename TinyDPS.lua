@@ -921,7 +921,6 @@ local scrollPos, isMovingOrSizing = 1, false
 local ttSpellMerge, ttMobMerge, ttSort = {}, {}, {}
 local cColor
 
-local isBoss = LibStub("LibBossIDs-1.0").BossIDs
 local isHeal = {
   SPELL_ABSORBED = true,
   SPELL_HEAL = true,
@@ -1684,12 +1683,14 @@ local function startNewFight(target, GUID)
     scrollPos = 1
   end
 
+  local isBossOnPull = IsEncounterInProgress()
+
   -- insert a new fight at position 2
   if tdpsFight[2].d + tdpsFight[2].h > 0 and ((tdps.onlyBossSegments and tdpsFight[2].boss) or not
   tdps.onlyBossSegments) then
     tinsert(tdpsFight, 2, {
       name = target or "?",
-      boss = isBoss[tonumber(id)],
+      boss = isBossOnPull,
       d = 0,
       h = 0,
     })
@@ -1718,7 +1719,7 @@ local function startNewFight(target, GUID)
   else
     tdpsFight[2] = {
       name = target or "?",
-      boss = isBoss[tonumber(id)],
+      boss = isBossOnPull,
       d = 0,
       h = 0,
     }
@@ -2932,6 +2933,11 @@ function tdpsOnUpdate(self, elapsed)
   sec = sec + elapsed
   if sec > tdps.speed then
     checkCombat()
+    if tdpsInCombat then
+      if not tdpsFight[2].boss then
+        tdpsFight[2].boss = IsEncounterInProgress()
+      end
+    end
     if not tdpsInCombat then
       tdpsStartNewFight = true
       -- halted out of combat and restarted with combat (see function tdpsCombatEvent)
